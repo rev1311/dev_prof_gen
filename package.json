@@ -1,0 +1,25 @@
+{
+  "name": "dev_prof_gen",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "fs": "^0.0.1-security",
+    "inquirer": "^7.0.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rev1311/dev_prof_gen.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rev1311/dev_prof_gen/issues"
+  },
+  "homepage": "https://github.com/rev1311/dev_prof_gen#readme"
+}
