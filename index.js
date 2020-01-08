@@ -78,7 +78,7 @@ const colors = {
 
 // data.stargazers_count = data['stargazers_count'];
 
-function generateHTML(apiRes) {
+function generateHTML(data) {
     return `<!DOCTYPE html>
     <html lang-"en>
        <head>
@@ -229,40 +229,40 @@ function generateHTML(apiRes) {
         <body>
         <div class="wrapper">
             <div class="photo-header">
-                <img src="${apiRes.avatar_url}" alt="Developer Profile Image">
+                <img src="${data.avatar_url}" alt="Developer Profile Image">
                 <h1>Hi!</h1>
-                <h2>My name is ${apiRes.name}!</h2>
-                <h4>Currently @ ${apiRes.company}</h4>
+                <h2>My name is ${data.name}!</h2>
+                <h4>Currently @ ${data.company}</h4>
                 <ul class="links-nav">
-                    <li class="nav-link"><a href="http://maps.google.com/?q=${apiRes.location}"><i class="fas fa-location-arrow"></i> ${data.location}</a></li>
-                    <li class="nav-link"><a href="${apiRes.html_url}"><i class="fab fa-github-alt"></i> GitHub</a></li>
-                    <li class=" nav-link"><a href="${apiRes.blog}"><i class="fas fa-rss"></i> Blog</a></li>
+                    <li class="nav-link"><a href="http://maps.google.com/?q=${data.location}"><i class="fas fa-location-arrow"></i> ${data.location}</a></li>
+                    <li class="nav-link"><a href="${data.html_url}"><i class="fab fa-github-alt"></i> GitHub</a></li>
+                    <li class=" nav-link"><a href="${data.blog}"><i class="fas fa-rss"></i> Blog</a></li>
                 </ul>
             </div>
         <main>
             <div class="container">
                 <div class="row">
-                    <h5 class="col">${apiRes.bio}</h5>
+                    <h5 class="col">${data.bio}</h5>
                 </div>
                 <div class="row">
                     <div class="col">
                         <div class="card">
                         <h4>Public Reposorities</h4>
-                        <h5>${apiRes.public_repos}</h5>
+                        <h5>${data.public_repos}</h5>
                         </div>
                         <div class="card col">
                         <h4>GitHub Stars</h4>
-                        <h5>${apiRes.stargazers_count}</h5>
+                        <h5>${data.stargazers_count}</h5>
                         </div>
                     </div>
                     <div class="col">
                         <div class="card">
                         <h4>Followers</h4>
-                        <h5>${apiRes.followers}</h5>
+                        <h5>${data.followers}</h5>
                         </div>
                         <div class="card col">
                         <h4>Following</h4>
-                        <h5>${apiRes.following}</h5>
+                        <h5>${data.following}</h5>
                         </div>
                     </div>
                 </div>
