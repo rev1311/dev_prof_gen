@@ -1,14 +1,12 @@
-// import { generateHTML } from "./generateHTML.js";
-
+const fs = require('fs');
 const inquirer = require('inquirer');
 const axios = require('axios');
+const util = require('util');
 
+const writeFileAsync = util.promisify(fs.writeFile);
 
-// github api call requirements
-const client_id = "Iv1.6db0f166fada637e";
-const client_secret = "233133de119b4e741ed1dc925507313284c0a4ce";
-
-const questions = [
+function promptUser() {
+    return inquirer.prompt([
     {
         type: "input",
         message: "Enter your GitHub user name",
@@ -20,30 +18,25 @@ const questions = [
         choices: ['green', 'blue', 'pink', 'red'],
         name: 'color'
     }
-    ];
+    ]);
+};
 
-const user = questions.username; 
-const userColor = questions.color;
-console.log(user);
-console.log(userColor);
+function profGen() {
+    promptUser().then(function({username, color}) {
 
-getProf()
+        const client_id = "Iv1.6db0f166fada637e";
+        const client_secret = "233133de119b4e741ed1dc925507313284c0a4ce";
+        const queryURL = `https://api.github.com/users/${username}?client_id=${client_id}&client_secret=${client_secret}`;
 
-async function getProf() {
-    try {
+        console.log(username);
+        console.log(color);
 
-    await inquirer.prompt(questions);
-    const queryURL = `https://api.github.com/users/${user}?client_id=${client_id}&client_secret=${client_secret}`;
-    
-    await axios.get(queryURL).then(function(response) {
-        apiRes = response;
-        generateHTML();
-        console.log(apiRes);
+        axios.get(queryURL).then(function(response) {
+            console.log(response);
+            apiRes = response.data;
+        });
+
     });
-
-    } catch(err) {
-        console.log(err);
-    }
 };
 
 const colors = {
@@ -73,9 +66,9 @@ const colors = {
     }
 }; 
 
-data.stargazers_count = data['stargazers_count'];
+// data.stargazers_count = data['stargazers_count'];
 
-function generateHTML(data) {
+function generateHTML(apiRes) {
     return `<!DOCTYPE html>
     <html lang-"en>
        <head>
@@ -103,7 +96,7 @@ function generateHTML(data) {
             height: 100%;
             }
             .wrapper {
-            background-color: ${colors[userColor.color].wrapperBackground};
+            background-color: ${colors[color.color].wrapperBackground};
             padding-top: 100px;
             }
             body {
@@ -145,8 +138,8 @@ function generateHTML(data) {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            background-color: ${colors[userColor.color].headerBackground};
-            color: ${colors[userColor.color].headerColor};
+            background-color: ${colors[color.color].headerBackground};
+            color: ${colors[color.color].headerColor};
             padding: 10px;
             width: 95%;
             border-radius: 6px;
@@ -157,7 +150,7 @@ function generateHTML(data) {
             border-radius: 50%;
             object-fit: cover;
             margin-top: -75px;
-            border: 6px solid ${colors[userColor.color].photoBorderColor};
+            border: 6px solid ${colors[color.color].photoBorderColor};
             box-shadow: rgba(0, 0, 0, 0.3) 4px 1px 20px 4px;
             }
             .photo-header h1, .photo-header h2 {
@@ -200,8 +193,8 @@ function generateHTML(data) {
             .card {
                 padding: 20px;
                 border-radius: 6px;
-                background-color: ${colors[userColor.color].headerBackground};
-                color: ${colors[userColor.color].headerColor};
+                background-color: ${colors[color.color].headerBackground};
+                color: ${colors[color.color].headerColor};
                 margin: 20px;
             }
             
@@ -226,40 +219,40 @@ function generateHTML(data) {
         <body>
         <div class="wrapper">
             <div class="photo-header">
-                <img src="${apiRes.data.avatar_url}" alt="Developer Profile Image">
+                <img src="${apiRes.avatar_url}" alt="Developer Profile Image">
                 <h1>Hi!</h1>
-                <h2>My name is ${apiRes.data.name}!</h2>
-                <h4>Currently @ ${apiRes.data.company}</h4>
+                <h2>My name is ${apiRes.name}!</h2>
+                <h4>Currently @ ${apiRes.company}</h4>
                 <ul class="links-nav">
-                    <li class="nav-link"><a href="http://maps.google.com/?q=${apiRes.data.location}"><i class="fas fa-location-arrow"></i> ${data.location}</a></li>
-                    <li class="nav-link"><a href="${apiRes.data.html_url}"><i class="fab fa-github-alt"></i> GitHub</a></li>
-                    <li class=" nav-link"><a href="${apiRes.data.blog}"><i class="fas fa-rss"></i> Blog</a></li>
+                    <li class="nav-link"><a href="http://maps.google.com/?q=${apiRes.location}"><i class="fas fa-location-arrow"></i> ${data.location}</a></li>
+                    <li class="nav-link"><a href="${apiRes.html_url}"><i class="fab fa-github-alt"></i> GitHub</a></li>
+                    <li class=" nav-link"><a href="${apiRes.blog}"><i class="fas fa-rss"></i> Blog</a></li>
                 </ul>
             </div>
         <main>
             <div class="container">
                 <div class="row">
-                    <h5 class="col">${apiRes.data.bio}</h5>
+                    <h5 class="col">${apiRes.bio}</h5>
                 </div>
                 <div class="row">
                     <div class="col">
                         <div class="card">
                         <h4>Public Reposorities</h4>
-                        <h5>${apiRes.data.public_repos}</h5>
+                        <h5>${apiRes.public_repos}</h5>
                         </div>
                         <div class="card col">
                         <h4>GitHub Stars</h4>
-                        <h5>${apiRes.data.stargazers_count}</h5>
+                        <h5>${apiRes.stargazers_count}</h5>
                         </div>
                     </div>
                     <div class="col">
                         <div class="card">
                         <h4>Followers</h4>
-                        <h5>${apiRes.data.followers}</h5>
+                        <h5>${apiRes.followers}</h5>
                         </div>
                         <div class="card col">
                         <h4>Following</h4>
-                        <h5>${apiRes.data.following}</h5>
+                        <h5>${apiRes.following}</h5>
                         </div>
                     </div>
                 </div>
@@ -270,3 +263,17 @@ function generateHTML(data) {
         </html>`
     
 };
+
+
+profGen()
+  .then(function(response) {
+    const html = generateHTML(response);
+
+    return writeFileAsync("index.html", html);
+  })
+  .then(function() {
+    console.log("Successfully wrote to index.html");
+  })
+  .catch(function(err) {
+    console.log(err);
+  });
