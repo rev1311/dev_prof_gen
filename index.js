@@ -33,8 +33,18 @@ function profGen() {
 
         axios.get(queryURL).then(function(response) {
             console.log(response);
-            apiRes = response.data;
-        });
+            var data = response.data;
+            data.color = color;
+            const html = generateHTML(data);
+
+            return writeFileAsync("index.html", html);
+            })
+          .then(function() {
+            console.log("Successfully wrote to index.html");
+            })
+          .catch(function(err) {
+            console.log(err);
+            });
 
     });
 };
@@ -96,7 +106,7 @@ function generateHTML(apiRes) {
             height: 100%;
             }
             .wrapper {
-            background-color: ${colors[color.color].wrapperBackground};
+            background-color: ${colors[data.color].wrapperBackground};
             padding-top: 100px;
             }
             body {
@@ -138,8 +148,8 @@ function generateHTML(apiRes) {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            background-color: ${colors[color.color].headerBackground};
-            color: ${colors[color.color].headerColor};
+            background-color: ${colors[data.color].headerBackground};
+            color: ${colors[data.color].headerColor};
             padding: 10px;
             width: 95%;
             border-radius: 6px;
@@ -150,7 +160,7 @@ function generateHTML(apiRes) {
             border-radius: 50%;
             object-fit: cover;
             margin-top: -75px;
-            border: 6px solid ${colors[color.color].photoBorderColor};
+            border: 6px solid ${colors[data.color].photoBorderColor};
             box-shadow: rgba(0, 0, 0, 0.3) 4px 1px 20px 4px;
             }
             .photo-header h1, .photo-header h2 {
@@ -193,8 +203,8 @@ function generateHTML(apiRes) {
             .card {
                 padding: 20px;
                 border-radius: 6px;
-                background-color: ${colors[color.color].headerBackground};
-                color: ${colors[color.color].headerColor};
+                background-color: ${colors[data.color].headerBackground};
+                color: ${colors[data.color].headerColor};
                 margin: 20px;
             }
             
@@ -266,14 +276,3 @@ function generateHTML(apiRes) {
 
 
 profGen()
-  .then(function(response) {
-    const html = generateHTML(response);
-
-    return writeFileAsync("index.html", html);
-  })
-  .then(function() {
-    console.log("Successfully wrote to index.html");
-  })
-  .catch(function(err) {
-    console.log(err);
-  });
