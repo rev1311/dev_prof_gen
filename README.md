@@ -3,15 +3,12 @@ A command line application that takes a user's GitHub account name, a color choi
 
 ## Screen Grab
 
-![site](assets/xx.PNG)
+![site](assets/devss.PNG)
 
 ## Built With
 
 * [JavaScript](https://javascript.com)
 * [node.js](https://nodejs.com)
-
-![site](assets/xx.PNG)
-An example of the code to pull JSON data for current weather conditions.
 
 ## Deployed Link
 
