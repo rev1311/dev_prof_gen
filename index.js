@@ -2,8 +2,13 @@ const fs = require('fs');
 const inquirer = require('inquirer');
 const axios = require('axios');
 const util = require('util');
+// var convertFactory = require('electron-html-to');
+// var conversion = convertFactory({
+//     converterPath: convertFactory.converters.PDF
+//   });
 
 const writeFileAsync = util.promisify(fs.writeFile);
+
 
 function promptUser() {
     return inquirer.prompt([
@@ -45,6 +50,13 @@ function profGen() {
           .catch(function(err) {
             console.log(err);
             });
+            // conversion({ html:generateHtml.generateHTML(data)} , function(err, result) {
+            //     if (err) {
+            //     return console.error(err);
+            //     }
+            
+            //     result.stream.pipe(fs.createWriteStream('./dev_prof_gen.pdf',{mode:"0766",flag:"w"}));                
+            // });
 
     });
 };
