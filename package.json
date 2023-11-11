@@ -4,7 +4,7 @@
   "description": "developer profile generator",
   "main": "index.js",
   "dependencies": {
-    "axios": "^0.21.2",
+    "axios": "^1.6.0",
     "electron": "^23.3.13",
     "electron-html-to": "^2.6.0",
     "fs": "^0.0.1-security",
